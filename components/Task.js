@@ -8,12 +8,13 @@ export default class Task extends Component {
       <View style={styles.container}>
         <Text style= {styles.text}>{this.props.item.text}</Text>
         <TouchableOpacity
+          style={styles.touch}
           onPress= {() => { this.props.deleteTask(this.props.item.key);}}>
           <Ionicons 
             name='md-trash'
             size={24}
             color='gray'
-          /> 
+          />
         </TouchableOpacity>
       </View>
     );
@@ -29,5 +30,11 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize:24,
-  }
+    flex: 16
+  },  
+  touch: {
+    flex: 1,
+    marginLeft: 3,
+    marginTop: 3
+  },
 })

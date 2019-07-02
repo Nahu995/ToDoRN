@@ -2,9 +2,7 @@ import React from 'react';
 import {
   StyleSheet,
   View,
-  Button,
   AsyncStorage,
-  Text
 } from 'react-native';
 import Header from './components/Header';
 import Body from './components/Body';
@@ -15,6 +13,7 @@ export default class App extends React.Component {
     this.state = {
       tasks: [],
       text: '',
+      loadingTask: true,
     };
   }
 
@@ -23,7 +22,6 @@ export default class App extends React.Component {
   }
 
   changeText = (value) => {
-    console.log("changeText",value)
     this.setState({ text: value });
   }
 
@@ -57,8 +55,16 @@ export default class App extends React.Component {
         const newTasks = (JSON.parse(value))
         this.setState({tasks: newTasks})
       }
+      this.setState({
+        loadingTask: false
+      })
     })
-    .catch( (err) => console.log(err))
+    .catch( (err) => {
+      console.log(err)
+      this.setState({
+        loadingTask: false
+      })
+    })
   }
 
   render() {
@@ -70,8 +76,9 @@ export default class App extends React.Component {
           text={this.state.text}
         /> 
         <Body 
-          tasks={this.state.tasks} 
-          deleteTask={this.deleteTask}
+          tasks= {this.state.tasks} 
+          deleteTask= {this.deleteTask}
+          loadingTask= {this.state.loadingTask}
         />
       </View>
     );
