@@ -7,11 +7,10 @@ export default class Header extends Component {
   render(){
     return (
       <View style={styles.container}>
-        <Text>Header</Text>
         <TextInput
           style={styles.texto}
           onChangeText={this.props.changeText}
-          placeholder="Ingrese Texto"
+          placeholder="Add a new task..."
           onSubmitEditing={this.props.addTask}
           value={this.props.text}
         />

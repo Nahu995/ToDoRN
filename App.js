@@ -18,24 +18,47 @@ export default class App extends React.Component {
     };
   }
 
+  componentDidMount(){
+    this.recoverTasks()
+  }
+
   changeText = (value) => {
     console.log("changeText",value)
     this.setState({ text: value });
   }
 
   addTask = () => {
-    console.log(this.state.text)
+    const newTasks = [...this.state.tasks, {text: this.state.text, key: Date.now()}]
+    this.saveTasks(newTasks)
     this.setState({
-      tareas: [...this.state.tasks, {text: this.state.text, key: Date.now()}],
+      tasks: newTasks,
       text: '',
     });
   }
 
   deleteTask = (id) => {
     const newTasks = this.state.tasks.filter((task) => task.key !== id);
+    this.saveTasks(newTasks)
     this.setState({
       tasks: newTasks,
     });
+  }
+
+  saveTasks= (tasks) => {
+    AsyncStorage.setItem('@ToDo:tasks', JSON.stringify(tasks))
+    .then( (value) => console.log(value)) 
+    .catch( (err) => console.log(err))
+  }
+
+  recoverTasks= () => {
+    AsyncStorage.getItem('@ToDo:tasks')
+    .then( (value) => {
+      if( value !== null){
+        const newTasks = (JSON.parse(value))
+        this.setState({tasks: newTasks})
+      }
+    })
+    .catch( (err) => console.log(err))
   }
 
   render() {
@@ -45,8 +68,7 @@ export default class App extends React.Component {
           changeText={this.changeText}
           addTask={this.addTask}
           text={this.state.text}
-        />
-        <Text>{this.state.text}{console.log("HELLo")}</Text>
+        /> 
         <Body 
           tasks={this.state.tasks} 
           deleteTask={this.deleteTask}

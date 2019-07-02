@@ -8,8 +8,6 @@ export default class Body extends Component {
   render () {
     return (
       <View style={styles.container}>
-        <Text>Body</Text>
-        {console.log(this.props.tasks,"TASKS")}
         <FlatList
           data={this.props.tasks}
           renderItem={ ({item}) => (
